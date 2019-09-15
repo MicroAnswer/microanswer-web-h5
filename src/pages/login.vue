@@ -7,7 +7,3 @@
         name: "login"
     }
 </script>
-
-<style scoped>
-
-</style>

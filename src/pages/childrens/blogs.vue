@@ -7,7 +7,3 @@
         name: "blogs"
     }
 </script>
-
-<style scoped>
-
-</style>

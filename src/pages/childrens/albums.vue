@@ -7,7 +7,3 @@
         name: "albums"
     }
 </script>
-
-<style scoped>
-
-</style>

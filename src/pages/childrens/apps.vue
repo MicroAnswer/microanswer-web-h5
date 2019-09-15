@@ -7,7 +7,3 @@
         name: "apps"
     }
 </script>
-
-<style scoped>
-
-</style>

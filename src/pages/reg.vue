@@ -7,7 +7,3 @@
         name: "reg"
     }
 </script>
-
-<style scoped>
-
-</style>
