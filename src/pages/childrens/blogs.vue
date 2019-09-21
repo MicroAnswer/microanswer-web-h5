@@ -1,9 +1,17 @@
 <template>
-    <div>博客</div>
+    <div>
+
+        <md-button @click="alert('em~~~','你好')">alert</md-button>
+
+    </div>
 </template>
 
 <script>
     export default {
-        name: "blogs"
+        name: "blogs",
+        data () {
+            return {
+            }
+        }
     }
 </script>
