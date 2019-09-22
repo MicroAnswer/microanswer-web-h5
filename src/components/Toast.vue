@@ -1,13 +1,21 @@
 <!-- eslint-disable -->
 <template>
-    <transition name="slide-fade"  v-on:after-leave="afterLeave">
-        <div class="md-elevation-3 m-toast" v-if="mShow" v-html="msg||'　'"></div>
-    </transition>
+    <md-portal class="aaa">
+        <transition name="m-toast">
+            <div class="m-toast md-elevation-3" v-if="mShow" v-html="msg||'　'"></div>
+        </transition>
+    </md-portal>
 </template>
 
 <script>
+
+    import MdPortal from 'vue-material/src/components/MdPortal/MdPortal'
+
     export default {
         name: "Toast",
+        components: {
+            MdPortal
+        },
         props: {
             mActive: Boolean,
             time: {
@@ -16,7 +24,7 @@
             },
             msg: String
         },
-        created () {
+        created() {
             if (this.mActive) {
                 this.planHide();
             }
@@ -27,32 +35,23 @@
                     clearTimeout(this.mtimeoutIndex);
                 }
                 this.mtimeoutIndex = setTimeout(() => {
+                    this.$emit('update:mActive', false);
                     this.mShow = false;
                 }, this.time);
-            },
-            show() {
-                this.mShow = true;
-            },
-            afterLeave () {
-                this.$emit('onDismiss');
             }
         },
         watch: {
             mActive(val) {
                 this.mShow = val;
-            },
-            mShow (val) {
-                if (!val) {
-                    this.$emit('update:mActive', false);
-                } else {
+                if (val) {
                     this.planHide();
                 }
             }
         },
-        data()  {
+        data() {
             return {
-                mShow: this.mActive,
-                mtimeoutIndex: -1
+                mtimeoutIndex: -1,
+                mShow: this.mActive
             }
         }
     }
@@ -76,13 +75,15 @@
         transform-origin: center center;
     }
 
-    .slide-fade-enter-active {
-        transition: all .3s cubic-bezier(0.6,0.1,0.2,0.7);
+    .m-toast-enter-active {
+        transition: all .3s cubic-bezier(0.6, 0.1, 0.2, 0.7);
     }
-    .slide-fade-leave-active {
-        transition: all .3s cubic-bezier(0.6,0.1,0.2,0.7);
+
+    .m-toast-leave-active {
+        transition: all .3s cubic-bezier(0.6, 0.1, 0.2, 0.7);
     }
-    .slide-fade-enter, .slide-fade-leave-to{
+
+    .m-toast-enter, .m-toast-leave-to {
         transform: translate(-50%, 20px);
         opacity: 0;
     }

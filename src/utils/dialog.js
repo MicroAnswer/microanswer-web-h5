@@ -2,8 +2,9 @@ import MdDialog from 'vue-material/dist/components/MdDialog'
 import Toast_ from '../components/Toast'
 import Vue from 'vue'
 
-const Alert = (title, msg, cancelTxt,confirmTxt, onCancelCallBack, onConfirmCallBack) => {
+const Alert = (vmParent, title, msg, cancelTxt,confirmTxt, onCancelCallBack, onConfirmCallBack) => {
     return new Vue({
+        parent: vmParent._self,
         render (h) {
 
             let buttons = [];
@@ -24,7 +25,8 @@ const Alert = (title, msg, cancelTxt,confirmTxt, onCancelCallBack, onConfirmCall
             return h("md-dialog", {
                 props: {
                     mdActive: this.mShow,
-                    mdFullscreen: false
+                    mdFullscreen: false,
+                    mdClickOutsideToClose: true
                 }
             },[
                 h("md-dialog-title", {}, [this.title]),
@@ -67,27 +69,34 @@ const Alert = (title, msg, cancelTxt,confirmTxt, onCancelCallBack, onConfirmCall
         }
     });
 };
-const Toast = (msg, time) => {
+const Toast = (vmParent, msg, time) => {
     return new Vue({
+        parent: vmParent._self,
         render(h) {
             return h("toast", {
                 props: {
-                    msg, time
+                    msg, time, mActive: this.mShow
                 },
-                ref: "toast",
                 on: {
-                    onDismiss: () => {
-                        this.$emit("onDismiss");
-                    }
+                    "update:mActive": this.onMActiveChange
                 }
             });
         },
-        beforeDestroy () {
-            this.$refs.toast.$destroy();
-        },
         methods: {
             show() {
-                this.$refs.toast.show();
+                this.$nextTick(() => {
+                    this.mShow = true;
+                });
+            },
+            onMActiveChange (val) {
+                if (!val) {
+                    this.$destroy();
+                }
+            }
+        },
+        data () {
+            return {
+                mShow: false
             }
         }
     });
@@ -96,7 +105,7 @@ const Toast = (msg, time) => {
 // mount传入的组件。并在合适的时机调用回调方法，以完成vue对象自身的功能。
 const append2Page = (al, cb) => {
     al.$mount();
-    document.querySelector("#app").append(al.$el);
+    // document.body.append(al.$el);
     al.$nextTick(function () {
         cb();
     });
@@ -116,12 +125,12 @@ export default {
          *     alert("title", "msg", "确定");
          *     alert("title", "msg", "确定", () => {console.log("点击确定了")});
          **/
-        Vue.prototype.alert = (title, msg, confirmTxt, onConfirmCallBack) => {
+        Vue.prototype.alert = function(title, msg, confirmTxt, onConfirmCallBack) {
             if (title && !msg) {
                 msg = title;
                 title = '提示';
             }
-            let al = Alert(title, msg, undefined, confirmTxt, undefined, onConfirmCallBack);
+            let al = Alert(this, title, msg, undefined, confirmTxt, undefined, onConfirmCallBack);
             append2Page(al, () => {
                 al.show();
             });
@@ -137,7 +146,7 @@ export default {
          *     confirm("title", "msg", "确定按钮", ()=> {console.log("点击确定了")});
          *     confirm("title", "msg", "取消按钮", "确定按钮", () => {console.log("取消点击了")}, () => {console.log("确定点击了")});
          */
-        Vue.prototype.confirm = (title, msg, cancelTxt, confirmTxt,onCancelCallBack, onConfirmCallBack) => {
+        Vue.prototype.confirm = function (title, msg, cancelTxt, confirmTxt,onCancelCallBack, onConfirmCallBack) {
             if (title && !msg) {
                 msg = title;
                 title = '提示';
@@ -151,27 +160,24 @@ export default {
                 cancelTxt = "取消";
                 onConfirmCallBack = confirmTxt;
             }
-            let al = Alert(title, msg, cancelTxt, confirmTxt, onCancelCallBack, onConfirmCallBack);
+            let al = Alert(this, title, msg, cancelTxt, confirmTxt, onCancelCallBack, onConfirmCallBack);
             append2Page(al, () => {
                 al.show();
             });
 
             return al;
-        }
+        };
 
         /**
          * 弹出吐司。
          *
          */
-        Vue.prototype.toast = (msg, time) => {
-            let t = Toast(msg, time);
+        Vue.prototype.toast = function(msg, time) {
+            let t = Toast(this, msg, time);
             append2Page(t, () => {
                t.show();
             });
-            t.$on("onDismiss", () => {
-                t.$destroy();
-            });
             return t;
-        }
+        };
     }
 }
