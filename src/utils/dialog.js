@@ -69,6 +69,51 @@ const Alert = (vmParent, title, msg, cancelTxt,confirmTxt, onCancelCallBack, onC
         }
     });
 };
+const Loading = (vmParent, msg) => {
+    return new Vue({
+        parent: vmParent._self,
+        render (h) {
+            return h("md-dialog", {
+                props: {
+                    mdActive: this.mShow,
+                    mdFullscreen: false,
+                    mdClickOutsideToClose: false
+                }
+            }, [h("md-dialog-content", {
+                style: {
+                    display: "flex",
+                    padding: "14px"
+                }
+            }, [
+                h("md-progress-spinner", {
+                    props: {
+                        mdMode: "indeterminate"
+                    }
+                }), h("div", {
+                    style: {
+                        alignSelf: "center",
+                        marginLeft: "16px"
+                    }
+                }, [this.msg])])
+            ]);
+        },
+        data: () => ({
+            mShow: false,
+            msg: msg ||"加载中…"
+        }),
+        methods: {
+            show () {
+                this.mShow = true;
+            },
+            hide () {
+                this.mShow = false;
+                this.$nextTick(()=> {
+                    this.$destroy();
+                });
+            }
+        }
+    });
+};
 const Toast = (vmParent, msg, time) => {
     return new Vue({
         parent: vmParent._self,
@@ -179,5 +224,14 @@ export default {
             });
             return t;
         };
+
+        // 显示加载框
+        Vue.prototype.showLoading = function (msg) {
+            var l = Loading(this, msg);
+            append2Page(l, () => {
+                l.show();
+            });
+            return l;
+        }
     }
 }

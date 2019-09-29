@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import Constant from './constant'
+import Vue from 'vue'
 
 
 class NetUtil {
@@ -75,10 +76,11 @@ class NetUtil {
         if (msg === '' || msg === false) {
             this.isShowLoading = false;
         } else {
+            this.isShowLoading = true;
             if (typeof msg === "string") {
                 this.loadingMsg = msg;
             } else {
-                this.loadingMsg = "loading…";
+                this.loadingMsg = "加载中…";
             }
         }
         return this;
@@ -101,7 +103,7 @@ class NetUtil {
             // 给出提示
             .then(() => {
                 if (this.isShowLoading) {
-                    window.console.log("axios:" + this.loadingMsg);
+                    this.loadDialog = Vue.prototype.showLoading(this.loadingMsg);
                 }
             })
 
@@ -127,7 +129,9 @@ class NetUtil {
             // 隐藏提示。
             .finally(() => {
                 if (this.isShowLoading) {
-                    window.console.log("axios:" + this.loadingMsg + ":end.");
+                    if (this.loadDialog) {
+                        this.loadDialog.hide();
+                    }
                 }
             }).then(fun);
     }

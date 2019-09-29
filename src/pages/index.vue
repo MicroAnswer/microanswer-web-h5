@@ -1,65 +1,87 @@
 <template>
-    <div class="m-w-container">
-
-        <!-- 顶部ToolBar -->
-        <md-toolbar class="md-primary m-w-toolbar">
-            <div class="md-toolbar-row">
-                <md-button class="md-icon-button" @click="showNavigation=true">
+    <div class="page-container">
+        <md-app md-mode="fixed" md-waterfall :style="{maxHeight: maxHeight}">
+            <!-- 顶部ToolBar -->
+            <md-app-toolbar class="md-primary">
+                <md-button class="md-icon-button md-small-show" @click="showNavigation=true">
                     <md-icon>menu</md-icon>
                 </md-button>
+                <span class="md-title">Microanswer的网站</span>
+            </md-app-toolbar>
 
-                <h3 class="md-title">Microanswer的网站</h3>
-            </div>
-        </md-toolbar>
+            <!-- 侧边菜单 -->
+            <md-app-drawer md-swipeable md-fixed md-permanent="full" :md-active.sync="showNavigation">
 
-        <router-view/>
+                <md-card class="md-elevation-0">
+                    <md-card-content>
 
-        <!-- 侧边菜单 -->
-        <md-drawer :md-active.sync="showNavigation" md-swipeable md-fixed>
-
-
-            <md-content class="md-primary" style="padding-top: 30px;padding-bottom: 20px;">
-
-                <md-avatar class="md-large" style="background-color: wheat;margin-left: 8px">
-                    <md-icon>person</md-icon>
-                </md-avatar>
-
-                <md-content style="display: inline-block;vertical-align: middle;background-color: transparent">
-                <md-button class="md-raised md-accent" to="./login">登录</md-button>
-                <md-button class="md-raised" to="./reg">注册</md-button>
-                </md-content>
-
-            </md-content>
+                        <!-- 头像 -->
+                        <md-avatar class="md-avatar-icon md-large">
+                            <md-icon>person</md-icon>
+                        </md-avatar>
+                    </md-card-content>
+                    <md-card-actions md-alignment="left">
 
 
-            <md-list>
-                <md-list-item :class="$route.path === '/' && 'router-link-active'" @click="onDrawerListItemClick('./')">
-                    <md-icon>home</md-icon>
-                    <span class="md-list-item-text">首页</span>
-                </md-list-item>
+                        <md-menu md-full-width>
 
-                <md-list-item :class="$route.path === '/blogs' && 'router-link-active'" @click="onDrawerListItemClick('./blogs')">
-                    <md-icon>description</md-icon>
-                    <span class="md-list-item-text">博客</span>
-                </md-list-item>
+                            <div>Microanswer</div>
+                            <md-ripple>
+                                <span md-menu-trigger class="md-caption">
+                                    microanswer@outlook.com
+                                    <md-icon>arrow_drop_down</md-icon>
+                                </span>
+                            </md-ripple>
 
-                <md-list-item :class="$route.path === '/albums' && 'router-link-active'" @click="onDrawerListItemClick('./albums')">
-                    <md-icon>toys</md-icon>
-                    <span class="md-list-item-text">专题</span>
-                </md-list-item>
+                            <md-menu-content>
+                                <md-menu-item>修改密码</md-menu-item>
+                                <md-menu-item>退出登录</md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </md-card-actions>
+                </md-card>
 
-                <md-list-item :class="$route.path === '/apps' && 'router-link-active'" @click="onDrawerListItemClick('./apps')">
-                    <md-icon>extension</md-icon>
-                    <span class="md-list-item-text">产品</span>
-                </md-list-item>
+                <md-divider></md-divider>
 
-                <md-list-item :class="$route.path === '/about' && 'router-link-active'" @click="onDrawerListItemClick('./about')">
-                    <md-icon>info</md-icon>
-                    <span class="md-list-item-text">关于</span>
-                </md-list-item>
-            </md-list>
-        </md-drawer>
 
+                <md-list>
+                    <md-list-item :class="$route.path === '/' && 'router-link-active'"
+                                  @click="onDrawerListItemClick('./')">
+                        <md-icon>home</md-icon>
+                        <span class="md-list-item-text">首页</span>
+                    </md-list-item>
+
+                    <md-list-item :class="$route.path === '/blogs' && 'router-link-active'"
+                                  @click="onDrawerListItemClick('./blogs')">
+                        <md-icon>description</md-icon>
+                        <span class="md-list-item-text">博客</span>
+                    </md-list-item>
+
+                    <md-list-item :class="$route.path === '/albums' && 'router-link-active'"
+                                  @click="onDrawerListItemClick('./albums')">
+                        <md-icon>toys</md-icon>
+                        <span class="md-list-item-text">专题</span>
+                    </md-list-item>
+
+                    <md-list-item :class="$route.path === '/apps' && 'router-link-active'"
+                                  @click="onDrawerListItemClick('./apps')">
+                        <md-icon>extension</md-icon>
+                        <span class="md-list-item-text">产品</span>
+                    </md-list-item>
+
+                    <md-list-item :class="$route.path === '/about' && 'router-link-active'"
+                                  @click="onDrawerListItemClick('./about')">
+                        <md-icon>info</md-icon>
+                        <span class="md-list-item-text">关于</span>
+                    </md-list-item>
+                </md-list>
+            </md-app-drawer>
+
+            <!-- 内容区域 -->
+            <md-app-content style="padding: 0">
+                <router-view/>
+            </md-app-content>
+        </md-app>
     </div>
 </template>
 
@@ -75,24 +97,19 @@
                 this.showNavigation = false;
             }
         },
-        data() {
+        data () {
             return {
-                showNavigation: false
+                showNavigation: false,
+                maxHeight: window.innerHeight + 'px',
             }
         }
     }
 </script>
-<style scoped>
-    .m-w-container {padding-top: 64px;}
-    @media (max-width: 960px) {.m-w-container {padding-top: 48px;}}
-    @media (max-width: 600px) {.m-w-container {padding-top: 56px;}}
-    .m-w-toolbar {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 3;
-        margin: auto;
-        max-width: 100%;
+<style>
+    @media (min-width: 600px) {
+
+        .md-small-show {
+            display: none !important;
+        }
     }
 </style>

@@ -1,4 +1,5 @@
 
+import MdApp           from 'vue-material/dist/components/MdApp'
 import MdButton        from 'vue-material/dist/components/MdButton'
 import MdToolbar       from 'vue-material/dist/components/MdToolbar'
 import MdIcon          from 'vue-material/dist/components/MdIcon'
@@ -9,10 +10,15 @@ import MdCard          from 'vue-material/dist/components/MdCard'
 import MdAvatar        from 'vue-material/dist/components/MdAvatar'
 import MdSubheader     from 'vue-material/dist/components/MdSubheader'
 import MdDivider       from 'vue-material/dist/components/MdDivider'
+import MdMenu          from 'vue-material/dist/components/MdMenu'
+import MdRipple        from 'vue-material/dist/components/MdRipple'
+import MdTabs          from 'vue-material/dist/components/MdTabs'
+import MdProgress      from 'vue-material/dist/components/MdProgress'
 
 
 const componentList = [
-    MdButton, MdToolbar, MdIcon, MdDrawer, MdList,MdContent, MdCard,MdAvatar,MdSubheader,MdDivider
+    MdButton, MdToolbar, MdIcon, MdDrawer, MdList,MdContent, MdCard,MdAvatar,MdSubheader,MdDivider,
+    MdApp, MdMenu, MdRipple,MdTabs,MdProgress
 ];
 
 export default {
