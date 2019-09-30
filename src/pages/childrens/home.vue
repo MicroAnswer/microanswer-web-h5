@@ -1,4 +1,13 @@
 <template>
+    <div>
+        <!-- 顶部ToolBar -->
+        <md-toolbar class="md-primary">
+            <md-button class="md-icon-button md-small-show" @click="$store.commit('makeNav', true)">
+                <md-icon>menu</md-icon>
+            </md-button>
+            <span class="md-title">首页</span>
+        </md-toolbar>
+
     <transition name="fade">
         <md-content v-show="loaded">
             <!-- 顶部banner -->
@@ -51,9 +60,11 @@
 
         </md-content>
     </transition>
+    </div>
 </template>
 
 <script>
+    /* eslint-disable */
     import {swiper, swiperSlide} from 'vue-awesome-swiper'
     import "swiper/dist/css/swiper.min.css"
     import ListBlog from '../../components/List-Blog'

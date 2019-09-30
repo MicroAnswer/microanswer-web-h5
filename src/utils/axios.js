@@ -25,18 +25,20 @@ class NetUtil {
         this.apply(NetUtil.axios);
         this.url(url);
         this.before(true);
-        this._transformRequest(function (data/*, headers*/) {
-            var formData = new FormData();
+        this._transformRequest((data/*, headers*/) => {
+            var params = new URLSearchParams();
             if (data && typeof data === "object" && !(data instanceof FormData)) {
                 for (let f in data) {
                     var value = data[f];
                     var type = typeof value;
                     if (type === "string") {
-                        formData.set(f, value);
+                        params.append(f, value);
+                    } else if(type === "number") {
+                        params.append(f, value);
                     } else if (type === "function") {
-                        formData.set(f, "javascript:function(" + type.name + ")");
+                        params.append(f, "javascript:function(" + type.name + ")");
                     } else if (type === "object") {
-                        formData.set(f, JSON.stringify(value));
+                        params.append(f, JSON.stringify(value));
                     } else {
                         throw new Error("不支持此请求数据。");
                     }
@@ -44,7 +46,7 @@ class NetUtil {
             } else {
                 return data || "";
             }
-            return formData;
+            return params;
         })
     }
 
@@ -124,6 +126,11 @@ class NetUtil {
                     return Promise.resolve(result);
                 }
                 return Promise.reject(new Error(result.message || result.msg || "出现了问题，请稍后再试！"));
+            })
+            .catch(function (err) {
+                Vue.prototype.alert("Oops!", err.message);
+                // 继续抛出错误，这里只做弹窗。
+                return Promise.reject(err);
             })
 
             // 隐藏提示。

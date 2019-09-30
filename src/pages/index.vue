@@ -1,16 +1,9 @@
 <template>
     <div class="page-container">
         <md-app md-mode="fixed" md-waterfall :style="{maxHeight: maxHeight}">
-            <!-- 顶部ToolBar -->
-            <md-app-toolbar class="md-primary">
-                <md-button class="md-icon-button md-small-show" @click="showNavigation=true">
-                    <md-icon>menu</md-icon>
-                </md-button>
-                <span class="md-title">Microanswer的网站</span>
-            </md-app-toolbar>
 
             <!-- 侧边菜单 -->
-            <md-app-drawer md-swipeable md-fixed md-permanent="full" :md-active.sync="showNavigation">
+            <md-app-drawer md-swipeable md-fixed md-permanent="full" :md-active.sync="$store.state.showNav">
 
                 <md-card class="md-elevation-0">
                     <md-card-content>
@@ -86,26 +79,47 @@
 </template>
 
 <script>
-
+    /* eslint-disable */
     export default {
         name: "index",
+        beforeRouteEnter (to, from, next) {
+            // 在渲染该组件的对应路由被 confirm 前调用
+            // 不！能！获取组件实例 `this`
+            // 因为当守卫执行前，组件实例还没被创建
+            window.console.log("beforeRouteEnter");
+            next();
+        },
+        beforeRouteUpdate (to, from, next) {
+            // 在当前路由改变，但是该组件被复用时调用
+            // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+            // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+            // 可以访问组件实例 `this`
+            window.console.log("beforeRouteUpdate");
+            next();
+        },
+        beforeRouteLeave (to, from, next) {
+            // 导航离开该组件的对应路由时调用
+            // 可以访问组件实例 `this`
+            window.console.log("beforeRouteLeave");
+            next();
+        },
+        created () {},
         methods: {
             onDrawerListItemClick (to) {
                 if (to.replace('.', '') !== this.$route.path) {
                     this.$router.push(to);
                 }
-                this.showNavigation = false;
+                this.$store.commit("makeNav", false);
             }
         },
         data () {
             return {
-                showNavigation: false,
-                maxHeight: window.innerHeight + 'px',
+                maxHeight: window.innerHeight + 'px'
             }
         }
     }
 </script>
-<style>
+<style lang="scss">
     @media (min-width: 600px) {
 
         .md-small-show {

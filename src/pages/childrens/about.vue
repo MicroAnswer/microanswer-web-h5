@@ -1,8 +1,8 @@
 <template>
-    <div style="padding: 8px">
+    <div>
 
         <!-- 顶部说明 -->
-        <md-card>
+        <md-card style="margin: 8px">
             <md-card-header>
                 <div class="md-title">Microanswer的个人网站</div>
                 <div class="md-subhead">移动web版</div>
@@ -19,18 +19,18 @@
         </md-card>
 
         <!-- 更新记录 -->
-        <md-card style="margin-top: 8px">
+        <md-card style="margin: 8px">
             <md-card-header>
-                <div class="md-title">更新记录</div>
+                <div class="md-title">更新历史</div>
             </md-card-header>
 
             <md-card-content>
-                <md-button class="md-raised md-dense" href="">点击查看更新记录</md-button>
+                <md-button class="md-raised md-dense" href="">点击查看更新历史记录</md-button>
             </md-card-content>
         </md-card>
 
         <!-- 友情链接 -->
-        <md-card style="margin-top: 8px">
+        <md-card style="margin: 8px">
             <md-card-header>
                 <div class="md-title">友情链接</div>
             </md-card-header>
@@ -42,7 +42,7 @@
         </md-card>
 
         <!-- 邮箱 -->
-        <md-card style="margin-top: 8px">
+        <md-card style="margin: 8px">
             <md-card-header>
                 <div class="md-title">博主邮箱</div>
             </md-card-header>

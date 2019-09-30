@@ -14,13 +14,16 @@ import MdMenu          from 'vue-material/dist/components/MdMenu'
 import MdRipple        from 'vue-material/dist/components/MdRipple'
 import MdTabs          from 'vue-material/dist/components/MdTabs'
 import MdProgress      from 'vue-material/dist/components/MdProgress'
+import MdField         from 'vue-material/dist/components/MdField'
 
 
 const componentList = [
     MdButton, MdToolbar, MdIcon, MdDrawer, MdList,MdContent, MdCard,MdAvatar,MdSubheader,MdDivider,
-    MdApp, MdMenu, MdRipple,MdTabs,MdProgress
+    MdApp, MdMenu, MdRipple,MdTabs,MdProgress, MdField
 ];
 
 export default {
-    install (Vue) {for (let i = 0; i < componentList.length; i++) Vue.use(componentList[i]);}
+    install (Vue) {
+        for (let i = 0; i < componentList.length; i++) Vue.use(componentList[i]);
+    }
 }
