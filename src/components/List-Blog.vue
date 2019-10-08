@@ -29,7 +29,8 @@
         },
         created () {},
         mounted () {},
-        beforeDestroy () {},
+        beforeDestroy () {
+        },
         methods: {
             onBlogItemClick (item) {
 
