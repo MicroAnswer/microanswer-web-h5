@@ -1,9 +1,8 @@
 <template>
     <div class="page-container">
-        <md-app md-mode="fixed" md-waterfall :style="{maxHeight: maxHeight}">
 
             <!-- 侧边菜单 -->
-            <md-app-drawer md-swipeable md-fixed md-permanent="full" :md-active.sync="$store.state.showNav">
+            <md-drawer md-fixed  :md-active.sync="$store.state.showNav">
 
                 <md-card class="md-elevation-0">
                     <md-card-content>
@@ -68,13 +67,10 @@
                         <span class="md-list-item-text">关于</span>
                     </md-list-item>
                 </md-list>
-            </md-app-drawer>
+            </md-drawer>
 
-            <!-- 内容区域 -->
-            <md-app-content style="padding: 0">
-                <router-view/>
-            </md-app-content>
-        </md-app>
+        <!-- 内容区域 -->
+        <router-view/>
     </div>
 </template>
 
@@ -119,11 +115,3 @@
         }
     }
 </script>
-<style lang="scss">
-    @media (min-width: 600px) {
-
-        .md-small-show {
-            display: none !important;
-        }
-    }
-</style>

@@ -69,6 +69,7 @@
         },
         methods: {
 
+
             // 点击搜索。
             onSearchClick () {
                 if (!this.searchKey) return;
@@ -154,7 +155,7 @@
         },
         data () {
             return {
-                PAGE_COUNT:     10,        // 默认每页10条。
+                PAGE_COUNT:     20,        // 默认每页10条。
                 pageNum:        0,         // 标记当前页码。
 
                 searchMode:     false,     // 标记是否搜索模式。
